@@ -68,7 +68,7 @@ public class Contactos {
     }
 
     public void setImage(String image) {
-        this.nota = image;
+        this.image = image;
     }
 
 }

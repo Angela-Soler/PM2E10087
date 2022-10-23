@@ -28,5 +28,7 @@ public class Transacciones {
 
     public static final String DropTableContactos = "DROP TABLE IF EXISTS contactos";
 
+    public static final String DeleteRegistro = "DELETE FROM "+TablaContactos;
+
 }
 

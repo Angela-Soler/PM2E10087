@@ -35,14 +35,14 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_compartir"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/btnActualizar"
         app:layout_constraintHorizontal_bias="0.364"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listContactos"
         app:layout_constraintVertical_bias="0.23" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnActualizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_actualizar"
@@ -54,27 +54,27 @@
         app:layout_constraintVertical_bias="0.23" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnEliminar"
         android:layout_width="130dp"
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:text="@string/btn_eliminar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/btnLlamar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCompartir"
         app:layout_constraintVertical_bias="0.38" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnLlamar"
         android:layout_width="125dp"
         android:layout_height="48dp"
         android:layout_marginEnd="48dp"
         android:text="@string/btn_llamar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/btnActualizar"
         app:layout_constraintVertical_bias="0.371" />
 
     <TextView
