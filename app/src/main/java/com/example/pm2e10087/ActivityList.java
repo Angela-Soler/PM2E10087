@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -42,10 +43,15 @@ public class ActivityList extends AppCompatActivity {
     Button btnEliminar, btnActualizar, btnCompartir, btnLlamar;
     static final int peticion_acceso_call = 101;
 
+    public static Activity actList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //Para cerrar actividad desde otra activity
+        actList=this;
 
         conexion = new SQLiteConexion(this, Transacciones.NameDatabase, null, 1);
         listContactos = (ListView) findViewById(R.id.listContactos);
@@ -183,11 +189,11 @@ public class ActivityList extends AppCompatActivity {
     }
 
     private void actualizarRegistro(String id) {
-        try {
+        /*try {
             onBackPressed();
         } catch (Throwable e) {
             e.printStackTrace();
-        }
+        }*/
         Intent intent = new Intent(ActivityList.this, MainActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
@@ -251,5 +257,9 @@ public class ActivityList extends AppCompatActivity {
             startActivity(Intent.createChooser(intentShare,"Compartir con"));
         }
 
+    }
+
+    public void finalizarActivity(){
+        actList.finish();
     }
 }

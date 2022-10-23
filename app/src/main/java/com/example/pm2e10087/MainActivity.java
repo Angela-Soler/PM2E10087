@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     EditText txtNombre, txtTelefono, txtNota;
     Button btnSalvar, btnContactos;
     SQLiteConexion conexion;
+    Intent intentList;
 
     //Declaracion de variables para la foto
     static final int peticion_captura_imagen = 100;
@@ -123,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
         btnContactos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ActivityList.class);
-                startActivity(intent);
+                intentList = new Intent(MainActivity.this, ActivityList.class);
+                startActivity(intentList);
 
             }
         });
@@ -142,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
         try{
              cursor = db.rawQuery( Transacciones.GetContactos+" Where id = ?",args);
             while (cursor.moveToNext()){
-                txtNombre.setText(cursor.getString(1).replace(" ",""));
+                txtNombre.setText(cursor.getString(1));
                 txtTelefono.setText(cursor.getString(2).replace(" ",""));
-                txtNota.setText(cursor.getString(4).replace(" ",""));
+                txtNota.setText(cursor.getString(4));
                 String pais = cursor.getString(3).replace(" ","");
                 String uri = cursor.getString(5).replace(": ","");
                 Log.i("pais: ", pais);
@@ -311,6 +312,9 @@ public class MainActivity extends AppCompatActivity {
         spPaises.setSelection(0);
         txtNombre.requestFocus();
         btnSalvar.setText(R.string.btn_guardar);
+        extras = false;
+        intentList = null;
+        String id = "";
     }
 
     private void actualizarRegistro(String id) {
@@ -319,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(Transacciones.nombre,txtNombre.getText().toString());
         values.put(Transacciones.telefono,txtTelefono.getText().toString());
-        String [] args = {id};
 
         //Verificamos el pais seleccionado en el Spinner
         String seleccion = spPaises.getSelectedItem().toString();
@@ -330,7 +333,9 @@ public class MainActivity extends AppCompatActivity {
         values.put(Transacciones.image,pathImage);
 
         try {
-            String strSQL = "UPDATE "+Transacciones.TablaContactos+" " +
+            db.update(Transacciones.TablaContactos, values, "id=?", new String[]{id});
+
+            /*String strSQL = "UPDATE "+Transacciones.TablaContactos+" " +
                                 "SET nombre = '"+txtNombre.getText()+"'," +
                                     " telefono = '"+txtTelefono.getText() +"',"+
                                     " nota = '"+txtNota.getText()+"',"+
@@ -339,8 +344,8 @@ public class MainActivity extends AppCompatActivity {
                     " WHERE id = "+ id;
 
             Log.i("SQL: ",strSQL);
-            db.execSQL(strSQL);
-            //db.update(Transacciones.TablaContactos,args);
+            db.execSQL(strSQL);*/
+
             Toast.makeText(getApplicationContext(), "Contacto Actualizado Correctamente. ", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Error al actualizar contacto. "+e.toString(), Toast.LENGTH_SHORT).show();
@@ -349,5 +354,9 @@ public class MainActivity extends AppCompatActivity {
         db.close();
 
         ClearScreem();
+
+        ActivityList c = new ActivityList();
+        c.finalizarActivity(); //cierra la activity anterior
+        this.finish(); //cierra la activity actual
     }
 }
