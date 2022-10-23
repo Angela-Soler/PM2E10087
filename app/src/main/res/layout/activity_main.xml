@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/imgFoto"
-        android:layout_width="226dp"
-        android:layout_height="192dp"
+        android:layout_width="175dp"
+        android:layout_height="164dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/txtTelefono"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spPaises" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/txtNombre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
 
     <TextView
         android:id="@+id/textView4"
@@ -104,10 +104,10 @@
         android:layout_marginStart="16dp"
         android:text="@string/txtview_nota"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/txtNota"
         android:layout_width="283dp"
         android:layout_height="90dp"
         android:background="#4CAF50"
@@ -119,7 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.534"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelefono"
         app:layout_constraintVertical_bias="0.113" />
 
     <Button
@@ -132,7 +132,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
+        app:layout_constraintTop_toBottomOf="@+id/txtNota"
         app:layout_constraintVertical_bias="0.231" />
 
     <Button
@@ -147,4 +147,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSalvar"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnFoto"
+        android:layout_width="41dp"
+        android:layout_height="39dp"
+        android:foreground="@drawable/foto"
+        app:icon="@drawable/foto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgFoto"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.269" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
