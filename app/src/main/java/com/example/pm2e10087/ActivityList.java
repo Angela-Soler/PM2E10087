@@ -43,7 +43,7 @@ public class ActivityList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Toast.makeText(ActivityList.this, listaConcatenada.get(i), Toast.LENGTH_SHORT ).show();
-                Log.i("Seleccion id", listContactos.getSelectedItem().toString());
+                Log.i("Seleccion id", listaConcatenada.get(i));
             }
         });
     }
