@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PM2E10087</string>
+    <string name="txtview_pais">Pais</string>
+    <string name="txtview_nombre">Nombre</string>
+    <string name="txtview_telefono">Telefono</string>
+    <string name="txtview_nota">Nota</string>
+    <string name="btn_guardar">Salvar Contacto</string>
+    <string name="btn_contactos">Contactos Salvados</string>
 </resources>
