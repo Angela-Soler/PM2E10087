@@ -6,4 +6,9 @@
     <string name="txtview_nota">Nota</string>
     <string name="btn_guardar">Salvar Contacto</string>
     <string name="btn_contactos">Contactos Salvados</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="btn_actualizar">Actualizar</string>
+    <string name="btn_compartir">Compartir</string>
+    <string name="btn_llamar">Llamar</string>
+    <string name="lst_contacto">Lista de Contactos</string>
 </resources>
