@@ -49,12 +49,12 @@
 
     <Button
         android:id="@+id/btnLlamar"
-        android:layout_width="119dp"
-        android:layout_height="47dp"
+        android:layout_width="131dp"
+        android:layout_height="51dp"
         android:onClick="verificaSeleccion"
         android:text="@string/btn_llamar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toEndOf="@+id/btnEliminar"
         app:layout_constraintTop_toBottomOf="@+id/btnActualizar"
         tools:layout_conversion_absoluteHeight="54dp"
