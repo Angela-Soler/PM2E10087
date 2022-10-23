@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,11 +28,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.pm2e10087.configuracion.SQLiteConexion;
+import com.example.pm2e10087.tablas.Contactos;
 import com.example.pm2e10087.tablas.Transacciones;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spPaises;
     EditText txtNombre, txtTelefono, txtNota;
     Button btnSalvar, btnContactos;
+    SQLiteConexion conexion;
 
     //Declaracion de variables para la foto
     static final int peticion_captura_imagen = 100;
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     String pathImage = "";
     Uri fotoUri;
     Button btnFoto;
+    String id = "";
+    Boolean extras = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +68,32 @@ public class MainActivity extends AppCompatActivity {
         btnSalvar = findViewById(R.id.btnSalvar);
         btnContactos = findViewById(R.id.btnContactos);
 
-
         //Agregando valores al Spinner
         spPaises = findViewById(R.id.spPaises);
         String[] opciones = {"Honduras", "Guatemala","Costa Rica","Nicaragua","El Salvador"};
         ArrayAdapter<String> adpSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, opciones);
         spPaises.setAdapter(adpSpinner);
+
+        //Verificando si enviaron datos
+        Bundle datos = getIntent().getExtras();
+        if (datos == null) {
+            extras = false;
+            Log.i("Extras: ", "No hay datos a actualizar");
+
+        } else {
+            extras = true;
+            Log.i("Extras: ", "Sí hay datos a actualizar");
+
+            id = ""+datos.getString("id");
+            Log.i("Extras: ", "ID "+id);
+            if (id!=null){
+                btnSalvar.setText("Actualizar Contacto");
+                llenarDatos(id); //Llena la pantalla si trae el id a actualizar
+            }
+
+        }
+
+
 
         //Foto
         objetoImagen = findViewById(R.id.imgFoto);
@@ -83,7 +110,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validaciones()==true){
-                    guardarRegistro();
+                    if (extras == false){
+                        guardarRegistro();
+                    }else{
+                        actualizarRegistro(id);
+                    }
                 }
 
             }
@@ -98,6 +129,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void llenarDatos(String id) {
+        SQLiteConexion conexion = new SQLiteConexion(this, Transacciones.NameDatabase, null, 1);
+        Cursor cursor = null;
+        SQLiteDatabase db = conexion.getReadableDatabase(); //Base de Datos en modo lectura
+        Contactos listContactos;
+        String [] args = {id};
+        Log.i("args",args[0]);
+
+        try{
+             cursor = db.rawQuery( Transacciones.GetContactos+" Where id = ?",args);
+            while (cursor.moveToNext()){
+                txtNombre.setText(cursor.getString(1).replace(" ",""));
+                txtTelefono.setText(cursor.getString(2).replace(" ",""));
+                txtNota.setText(cursor.getString(4).replace(" ",""));
+                String pais = cursor.getString(3).replace(" ","");
+                String uri = cursor.getString(5).replace(": ","");
+                Log.i("pais: ", pais);
+                if (pais.equalsIgnoreCase("Honduras")){
+                    spPaises.setSelection(0);
+                }if (pais.equalsIgnoreCase("Guatemala")){
+                    spPaises.setSelection(1);
+                }if (pais.equalsIgnoreCase("CostaRica")){
+                    spPaises.setSelection(2);
+                }if (pais.equalsIgnoreCase("Nicaragua")){
+                    spPaises.setSelection(3);
+                }if (pais.equalsIgnoreCase("ElSalvador")){
+                    spPaises.setSelection(4);
+                }
+                //File foto = new File(uri);
+                //objetoImagen.setImageURI(Uri.fromFile(foto));
+            }
+            cursor.close();
+        }catch (Exception e){
+            Log.i("Error al hacer Select ", e.getMessage());
+        }
     }
 
     private void permisos() {
@@ -242,5 +310,44 @@ public class MainActivity extends AppCompatActivity {
         objetoImagen.setImageResource(R.drawable.contacto);
         spPaises.setSelection(0);
         txtNombre.requestFocus();
+        btnSalvar.setText(R.string.btn_guardar);
+    }
+
+    private void actualizarRegistro(String id) {
+        SQLiteConexion conexion = new SQLiteConexion(this, Transacciones.NameDatabase, null, 1);
+        SQLiteDatabase db = conexion.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Transacciones.nombre,txtNombre.getText().toString());
+        values.put(Transacciones.telefono,txtTelefono.getText().toString());
+        String [] args = {id};
+
+        //Verificamos el pais seleccionado en el Spinner
+        String seleccion = spPaises.getSelectedItem().toString();
+
+        Log.i("Seleccion",seleccion);
+        values.put(Transacciones.pais,seleccion);
+        values.put(Transacciones.nota,txtNota.getText().toString());
+        values.put(Transacciones.image,pathImage);
+
+        try {
+            String strSQL = "UPDATE "+Transacciones.TablaContactos+" " +
+                                "SET nombre = '"+txtNombre.getText()+"'," +
+                                    " telefono = '"+txtTelefono.getText() +"',"+
+                                    " nota = '"+txtNota.getText()+"',"+
+                                    " pais = '"+seleccion+"',"+
+                                    " image = '"+pathImage+"' "+
+                    " WHERE id = "+ id;
+
+            Log.i("SQL: ",strSQL);
+            db.execSQL(strSQL);
+            //db.update(Transacciones.TablaContactos,args);
+            Toast.makeText(getApplicationContext(), "Contacto Actualizado Correctamente. ", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Error al actualizar contacto. "+e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
+
+        ClearScreem();
     }
 }
