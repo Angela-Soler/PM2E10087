@@ -2,13 +2,18 @@ package com.example.pm2e10087;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +39,8 @@ public class ActivityList extends AppCompatActivity {
     List<Contactos> lis;
     ArrayList<String> listaConcatenada;
     String id = "";
-    Button btnEliminar, btnActualizar, btnCompartir;
+    Button btnEliminar, btnActualizar, btnCompartir, btnLlamar;
+    static final int peticion_acceso_call = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class ActivityList extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btnEliminar);
         btnActualizar = findViewById(R.id.btnActualizar);
         btnCompartir = findViewById(R.id.btnCompartir);
-
+        btnLlamar = findViewById(R.id.btnLlamar);
 
         //llenar lista
         GetListContactos();
@@ -87,6 +93,26 @@ public class ActivityList extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         compartir(lista.get(i).getNombre().toString(), lista.get(i).gettelefono().toString());
+                    }
+                });
+
+                //Boton Llamar
+                btnLlamar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Validar si el permiso está otorgado para llamar
+                        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                            //Otorgar el permiso si no se tiene
+                            ActivityCompat.requestPermissions(ActivityList.this, new String[]{Manifest.permission.CALL_PHONE}, peticion_acceso_call);
+                        }
+                        else{
+                            String telefono = lista.get(i).gettelefono().toString();
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse("tel:"+telefono));
+                            startActivity(callIntent);
+                        }
+
+
                     }
                 });
             }
