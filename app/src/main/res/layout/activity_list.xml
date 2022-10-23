@@ -4,95 +4,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityList">
+    android:layout_margin="0dp"
+    android:gravity="clip_horizontal|center|clip_vertical"
+    android:orientation="vertical"
+    tools:context=".ActivityList"
+    android:id="@+id/constraintL">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="21dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/llamada"
-        tools:layout_editor_absoluteY="-1dp" />
 
-    <ListView
-        android:id="@+id/listContactos"
-        android:layout_width="414dp"
-        android:layout_height="355dp"
-        android:layout_margin="0dp"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="303dp"
+        android:layout_height="46dp"
+        android:drawableLeft="@drawable/llamada"
+        android:gravity="center|fill_vertical"
+        android:text="@string/lst_contacto"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.445"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_conversion_absoluteHeight="37dp"
+        tools:layout_conversion_absoluteWidth="440dp" />
+
+    <EditText
+        android:id="@+id/txtBuscar"
+        android:layout_width="373dp"
+        android:layout_height="48dp"
+        android:drawableLeft="@drawable/busca"
+        android:ems="10"
+        android:hint="Buscar por nombre"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.027"
+        tools:layout_conversion_absoluteHeight="51dp"
+        tools:layout_conversion_absoluteWidth="440dp" />
+
+
+    <Button
+        android:id="@+id/btnLlamar"
+        android:layout_width="119dp"
+        android:layout_height="47dp"
+        android:onClick="verificaSeleccion"
+        android:text="@string/btn_llamar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintStart_toEndOf="@+id/btnEliminar"
+        app:layout_constraintTop_toBottomOf="@+id/btnActualizar"
+        tools:layout_conversion_absoluteHeight="54dp"
+        tools:layout_conversion_absoluteWidth="138dp" />
+
+    <Button
+        android:id="@+id/btnEliminar"
+        android:layout_width="122dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="72dp"
+        android:onClick="verificaSeleccion"
+        android:text="@string/btn_eliminar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCompartir"
+        tools:layout_conversion_absoluteHeight="54dp"
+        tools:layout_conversion_absoluteWidth="144dp" />
 
     <Button
         android:id="@+id/btnCompartir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:onClick="verificaSeleccion"
         android:text="@string/btn_compartir"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnActualizar"
-        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.232"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listContactos"
-        app:layout_constraintVertical_bias="0.23" />
+        tools:layout_conversion_absoluteHeight="54dp"
+        tools:layout_conversion_absoluteWidth="138dp" />
 
     <Button
         android:id="@+id/btnActualizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:onClick="verificaSeleccion"
         android:text="@string/btn_actualizar"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintStart_toEndOf="@+id/btnCompartir"
         app:layout_constraintTop_toBottomOf="@+id/listContactos"
-        app:layout_constraintVertical_bias="0.23" />
+        tools:layout_conversion_absoluteHeight="54dp"
+        tools:layout_conversion_absoluteWidth="144dp" />
 
-    <Button
-        android:id="@+id/btnEliminar"
-        android:layout_width="130dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:onClick="verificaSeleccion"
-        android:text="@string/btn_eliminar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnLlamar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCompartir"
-        app:layout_constraintVertical_bias="0.38" />
-
-    <Button
-        android:id="@+id/btnLlamar"
-        android:layout_width="125dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="48dp"
-        android:onClick="verificaSeleccion"
-        android:text="@string/btn_llamar"
+    <ListView
+        android:id="@+id/listContactos"
+        android:layout_width="396dp"
+        android:layout_height="445dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnActualizar"
-        app:layout_constraintVertical_bias="0.371" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="208dp"
-        android:layout_height="37dp"
-        android:gravity="center|fill_vertical"
-        android:text="@string/lst_contacto"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/listContactos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.262" />
+        app:layout_constraintTop_toBottomOf="@+id/txtBuscar"
+        app:layout_constraintVertical_bias="0.089"
+        tools:layout_conversion_absoluteHeight="534dp"
+        tools:layout_conversion_absoluteWidth="442dp">
+
+
+    </ListView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

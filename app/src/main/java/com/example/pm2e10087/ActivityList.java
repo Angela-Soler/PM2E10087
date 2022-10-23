@@ -16,11 +16,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ public class ActivityList extends AppCompatActivity {
     String id = "";
     Button btnEliminar, btnActualizar, btnCompartir, btnLlamar;
     static final int peticion_acceso_call = 101;
+    EditText txtBuscar;
 
     public static Activity actList;
 
@@ -59,9 +63,32 @@ public class ActivityList extends AppCompatActivity {
         btnActualizar = findViewById(R.id.btnActualizar);
         btnCompartir = findViewById(R.id.btnCompartir);
         btnLlamar = findViewById(R.id.btnLlamar);
+        txtBuscar = findViewById(R.id.txtBuscar);
 
+        txtBuscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //llenar lista
+                if(txtBuscar.getText().length() >= 0) {
+                    GetListContactos(" where nombre like '%"+txtBuscar.getText()+"%'");
+                    ArrayAdapter adp = new ArrayAdapter(ActivityList.this, android.R.layout.simple_list_item_1, listaConcatenada);
+                    listContactos.setAdapter(adp);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         //llenar lista
-        GetListContactos();
+        GetListContactos("");
 
         ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaConcatenada);
         listContactos.setAdapter(adp);
@@ -125,12 +152,12 @@ public class ActivityList extends AppCompatActivity {
         });
     }
 
-    private void GetListContactos() {
+    private void GetListContactos(String where) {
         SQLiteDatabase db = conexion.getReadableDatabase(); //Base de Datos en modo lectura
         Contactos listContactos;
 
         lista = new ArrayList<>(); //lista de objetos del tipo Personas
-        Cursor cursor = db.rawQuery(Transacciones.GetContactos,null);
+        Cursor cursor = db.rawQuery( Transacciones.GetContactos + where,null);
 
         while (cursor.moveToNext()){
             listContactos = new Contactos();

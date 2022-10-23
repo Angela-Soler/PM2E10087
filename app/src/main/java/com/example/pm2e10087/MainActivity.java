@@ -1,5 +1,7 @@
 package com.example.pm2e10087;
 
+import static java.io.File.createTempFile;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -9,11 +11,13 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     //Declaracion de variables para la foto
     static final int peticion_captura_imagen = 100;
     static final int peticion_acceso_camara = 201;
+    static final int peticion_acceso_foto = 200;
     ImageView objetoImagen;
     Button btntakepotho;
     String pathImage = "";
@@ -147,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
                 txtTelefono.setText(cursor.getString(2).replace(" ",""));
                 txtNota.setText(cursor.getString(4));
                 String pais = cursor.getString(3).replace(" ","");
-                String uri = cursor.getString(5).replace(": ","");
+                String uri = cursor.getString(5);
+
                 Log.i("pais: ", pais);
                 if (pais.equalsIgnoreCase("Honduras")){
                     spPaises.setSelection(0);
@@ -162,10 +168,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //File foto = new File(uri);
                 //objetoImagen.setImageURI(Uri.fromFile(foto));
+
+                String filePath = uri; //getUriFromSqlite();
+               // Bitmap bm = Bitmap.decodefile(Uri.decode(filePath));
+                /*Uri u = Uri.parse(filePath);
+                Log.i("URL ",u.toString());
+                Bitmap bm = MediaStore.Images.Media.getBitmap(, u.getPath());
+                objetoImagen.setImageBitmap(bm);*/
+
+                permisosMostrarFoto(filePath);
             }
             cursor.close();
         }catch (Exception e){
-            Log.i("Error al hacer Select ", e.getMessage());
+            Log.i("Error al mostrar datos ", e.getMessage());
         }
     }
 
@@ -230,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        File image = createTempFile(
                 imageFileName, /* prefix */
                 ".jpg", /* suffix */
                 storageDir /* directory */);
@@ -358,5 +373,28 @@ public class MainActivity extends AppCompatActivity {
         ActivityList c = new ActivityList();
         c.finalizarActivity(); //cierra la activity anterior
         this.finish(); //cierra la activity actual
+        btnSalvar.setText(R.string.btn_guardar);
+    }
+
+    private void permisosMostrarFoto(String url) throws IOException {
+        //Validar si el permiso está otorgado
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            //Otorgar el permiso si no se tiene
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, peticion_acceso_foto);
+        }
+        else{
+            String imageFileName = "";
+            File storageDir = getExternalFilesDir(url);
+            File image = createTempFile(
+                    imageFileName, /* prefix */
+                    ".jpg", /* suffix */
+                    storageDir /* directory */);
+            // Save a file: path for use with ACTION_VIEW intents
+            pathImage = image.getAbsolutePath();
+            Log.i("FOTO ACTUALIZA", pathImage.toString());
+            File foto = new File(pathImage);
+            objetoImagen.setImageURI(Uri.fromFile(foto));
+
+        }
     }
 }
