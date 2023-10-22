@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Convertidor="clr-namespace:PM2E10087.Converters"
+             x:Class="PM2E10087.Views.listarsitios">
+
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Convertidor:ByteArrayToImage x:Key="ByteToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+
+    <ContentPage.Content>
+        <StackLayout Background="#f2f2f2">
+            <ScrollView>
+                <ListView x:Name="listasitios" ItemTapped="liestasistios_ItemTapped" RowHeight="80">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            
+                            <ViewCell >
+                                <Grid>
+
+                                    <Image Source="{Binding imagen, Converter={StaticResource ByteToImage}}" 
+                                           Grid.Column="0" WidthRequest="100"  HorizontalOptions="Center" 
+                                           Margin="10,0,100,0" HeightRequest="100"
+                                           />
+                                    <Label Grid.Column="1" HorizontalOptions="Center" WidthRequest="600" 
+                                           Margin="-90,0,20,0" HeightRequest="100" 
+                                       Text="{Binding descripcion}" TextColor="Black" ></Label>
+                                </Grid>
+
+                            </ViewCell>
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+
+            <RelativeLayout HorizontalOptions="CenterAndExpand" Margin="20">
+                <Grid>
+                    <Button Text="Eliminar sitio" x:Name="btneliminarsitio"  WidthRequest="150" Grid.Column="0" Clicked="btneliminarsitio_Clicked" Background="Crimson" CornerRadius="4"/>
+                    <Button Text="Ver Mapa" x:Name="btnvermapa" WidthRequest="150"  Grid.Column="1" Clicked="btnvermapa_Clicked" Background="Darkgreen" CornerRadius="4"/>
+                </Grid>
+            </RelativeLayout>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PM2E10087.MainPage"
+             Background="DarkGreen">
+
+    <StackLayout Background="#f2f2f2">
+        <ScrollView>
+
+            <StackLayout Background="#f2f2f2">
+
+                <Label HorizontalOptions="CenterAndExpand" TextColor="Black" FontSize="18">Imagen de sitio</Label>
+
+                <Image x:Name="img" Source="sitio_.jpg" BackgroundColor="#fafaf7" WidthRequest="180" HeightRequest="180" Margin="30,0,30,10" HorizontalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AddImg" NumberOfTapsRequired="1"/>
+                    </Image.GestureRecognizers>
+                </Image>
+
+
+                <Label Margin="30,0,0,0" FontSize="18" TextColor="Black">Latitud</Label>
+                <Frame CornerRadius="4" Margin="30, 0, 30, 10" Padding="3">
+                    <Entry x:Name="txtlatitud" Keyboard="Numeric" Placeholder="Latitud" TextColor="Black" IsReadOnly="True"/>
+                </Frame>
+
+                <Label Margin="30,0,0,0" FontSize="18" TextColor="Black">Longitud</Label>
+                <Frame CornerRadius="4" Margin="30, 0, 30, 10" Padding="3" >
+                    <Entry x:Name="txtlongitud" Keyboard="Numeric" Placeholder="Longitud" TextColor="Black" IsReadOnly="True"/>
+                </Frame>
+
+                <Label Margin="30,0,0,0" FontSize="18" TextColor="Black">Descripción</Label>
+                <Frame CornerRadius="4" Margin="30, 0, 30, 10" Padding="3">
+                    <Editor x:Name="txtdescripcion"  Keyboard="Text" Placeholder="Ingrese descripcion" HeightRequest="120" TextColor="Black"/>
+                </Frame>
+
+                <Button Text="Agregar Sitio" x:Name="btnAgregar" Margin="30,0,30,0" Background="#fab617" TextColor="White" Clicked="btnagregars_Clicked" CornerRadius="4"/>
+                <Button Text="Sitios Visitados" x:Name="btnlistar"  Margin="30,0,30,0" Background="#be25ac" TextColor="White" Clicked="btnlistar_Clicked" CornerRadius="4"/>
+                <Button Text="Salir" x:Name="btnSalir" Margin="30,0,30,10" Background="#B70D0D" TextColor="White" Clicked="btnsalir_Clicked" CornerRadius="4"/>
+
+
+                <Frame BackgroundColor="#49be25" Padding="5" CornerRadius="0">
+                    <Label Text="PM2E1 - Angela Soler" HorizontalTextAlignment="Center" TextColor="Black" FontSize="18"/>
+                </Frame>
+
+            </StackLayout>
+        </ScrollView>
+
+    </StackLayout>
+
+</ContentPage>
